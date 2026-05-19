@@ -36,3 +36,25 @@ def add_expense():
         "message":"Expense added successfully"
     }),201 
 
+@expense.route("/expenses",methods=["GET"])
+@jwt_required() 
+
+def get_expenses():
+    current_user=get_jwt_identity()
+
+    expenses= Expense.query.filter_by(
+        user_id=current_user
+    ).all() 
+
+    expenses_list=[] 
+
+    for expense_item in expenses:
+        
+        expenses_list.append({
+            "id":expense_item.id,
+            "title":expense_item.title,
+            "amount":expense_item.amount,
+            "category":expense_item.category
+        })  
+
+    return jsonify(expenses_list),200 
