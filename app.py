@@ -14,7 +14,10 @@ from models.user_model import User
 from models.expense_model import Expense 
 
 from routes.auth_routes import auth
-app.register_blueprint(auth)
+app.register_blueprint(auth) 
+
+from routes.expense_routes import expense 
+app.register_blueprint(expense)
 
 
 @app.route("/")
