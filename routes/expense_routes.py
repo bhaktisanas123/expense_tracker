@@ -57,4 +57,35 @@ def get_expenses():
             "category":expense_item.category
         })  
 
-    return jsonify(expenses_list),200 
+    return jsonify(expenses_list),200  
+
+@expense.route("/expenses/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_expense(id):
+
+    
+    current_user = int(get_jwt_identity())
+
+    
+    expense_item = Expense.query.get(id)
+
+    
+    if not expense_item:
+        return jsonify({
+            "message": "Expense not found"
+        }), 404
+
+    
+    if expense_item.user_id != current_user:
+        return jsonify({
+            "message": "Unauthorized access"
+        }), 403
+
+    
+    db.session.delete(expense_item)
+
+    db.session.commit()
+
+    return jsonify({
+        "message": "Expense deleted successfully"
+    }), 200
