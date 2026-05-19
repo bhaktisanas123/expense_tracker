@@ -10,7 +10,8 @@ app.config.from_object(Config)
 db.init_app(app)
 jwt.init_app(app)
 
-from models.user_model import User
+from models.user_model import User 
+from models.expense_model import Expense 
 
 from routes.auth_routes import auth
 app.register_blueprint(auth)
