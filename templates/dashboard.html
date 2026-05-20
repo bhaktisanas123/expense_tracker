@@ -15,17 +15,23 @@
         rel="stylesheet"
     >
 
+    <link rel="stylesheet" href="/static/css/style.css">
+
 </head>
 
 <body class="bg-light">
 
     <div class="container mt-5">
 
+        <!-- Header -->
         <div class="d-flex justify-content-between align-items-center mb-4">
 
-            <h2>
-                Expense Dashboard
-            </h2>
+            <div>
+                <h2>Dashboard 📊</h2>
+                <p class="text-muted">
+                    Track your daily expenses
+                </p>
+            </div>
 
             <button
                 class="btn btn-danger"
@@ -36,109 +42,161 @@
 
         </div>
 
+        <!-- Summary Cards -->
+        <div class="row mb-4">
+
+            <div class="col-md-4">
+
+                <div class="card p-3 text-center">
+
+                    <h5>Total Expenses</h5>
+
+                    <h3 id="totalExpense">
+                        ₹0
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-3 text-center">
+
+                    <h5>This Month</h5>
+
+                    <h3 id="monthExpense">
+                        ₹0
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-3 text-center">
+
+                    <h5>Transactions</h5>
+
+                    <h3 id="totalCount">
+                        0
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Main Card -->
         <div class="card shadow p-4">
 
+            <!-- Add Expense -->
+            <h4 class="mb-3">
+                Add Expense
+            </h4>
+
+            <form id="expenseForm" class="mb-4">
+
+                <div class="row">
+
+                    <div class="col-md-4">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            placeholder="Expense Title"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="amount"
+                            placeholder="Amount"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select
+                            class="form-select"
+                            id="category"
+                            required
+                        >
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="Food">
+                                Food
+                            </option>
+
+                            <option value="Transport">
+                                Transport
+                            </option>
+
+                            <option value="Shopping">
+                                Shopping
+                            </option>
+
+                            <option value="Bills">
+                                Bills
+                            </option>
+
+                            <option value="Entertainment">
+                                Entertainment
+                            </option>
+
+                            <option value="Education">
+                                Education
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100"
+                        >
+                            Add
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+            <!-- Expense Table -->
             <h4 class="mb-3">
                 Your Expenses
-            </h4> 
-
-            <h4 class="mb-3">
-    Add Expense
-</h4>
-
-<form id="expenseForm" class="mb-4">
-
-    <div class="row">
-
-        <div class="col-md-4">
-
-            <input
-                type="text"
-                class="form-control"
-                id="title"
-                placeholder="Expense Title"
-                required
-            >
-
-        </div>
-
-        <div class="col-md-3">
-
-            <input
-                type="number"
-                class="form-control"
-                id="amount"
-                placeholder="Amount"
-                required
-            >
-
-        </div>
-
-        <div class="col-md-3">
-
-            <select
-                class="form-select"
-                id="category"
-                required
-            >
-
-                <option value="">
-                    Select Category
-                </option>
-
-                <option value="Food">
-                    Food
-                </option>
-
-                <option value="Transport">
-                    Transport
-                </option>
-
-                <option value="Shopping">
-                    Shopping
-                </option>
-
-                <option value="Bills">
-                    Bills
-                </option>
-
-                <option value="Entertainment">
-                    Entertainment
-                </option>
-
-                <option value="Education">
-                    Education
-                </option>
-
-            </select>
-
-        </div>
-
-        <div class="col-md-2">
-
-            <button
-                type="submit"
-                class="btn btn-primary w-100"
-            >
-                Add
-            </button>
-
-        </div>
-
-    </div>
-
-</form>
+            </h4>
 
             <table class="table table-bordered">
 
                 <thead>
 
                     <tr>
+
                         <th>ID</th>
                         <th>Title</th>
                         <th>Amount</th>
-                        <th>Category</th> 
+                        <th>Category</th>
                         <th>Actions</th>
+
                     </tr>
 
                 </thead>
@@ -153,6 +211,113 @@
 
     </div>
 
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+                        Edit Expense
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                    ></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <input
+                        type="hidden"
+                        id="editId"
+                    >
+
+                    <div class="mb-3">
+
+                        <label>
+                            Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editTitle"
+                            class="form-control"
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editAmount"
+                            class="form-control"
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            id="editCategory"
+                            class="form-select"
+                        >
+
+                            <option>Food</option>
+                            <option>Transport</option>
+                            <option>Shopping</option>
+                            <option>Bills</option>
+                            <option>Entertainment</option>
+                            <option>Education</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="updateExpense()"
+                    >
+                        Save Changes
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
 
         async function fetchExpenses() {
@@ -164,7 +329,8 @@
 
                 alert("Please login first");
 
-                window.location.href = "/login-page";
+                window.location.href =
+                    "/login-page";
 
                 return;
             }
@@ -181,137 +347,285 @@
                 }
             );
 
-            const data = await response.json();
+            const data =
+                await response.json();
 
+            // Summary cards
+            let total = 0;
+
+            document.getElementById(
+                "totalCount"
+            ).innerText = data.length;
+
+            data.forEach(expense => {
+                total += expense.amount;
+            });
+
+            document.getElementById(
+                "totalExpense"
+            ).innerText = `₹${total}`;
+
+            document.getElementById(
+                "monthExpense"
+            ).innerText = `₹${total}`;
+
+            // Table
             const table =
-                document.getElementById("expenseTable");
+                document.getElementById(
+                    "expenseTable"
+                );
 
             table.innerHTML = "";
 
             data.forEach(expense => {
 
                 table.innerHTML += `
-    <tr>
-        <td>${expense.id}</td>
-        <td>${expense.title}</td>
-        <td>₹${expense.amount}</td>
-        <td>${expense.category}</td>
 
-        <td>
+                    <tr>
 
-    <button
-        class="btn btn-warning btn-sm"
-        onclick="
-            editExpense(
-                ${expense.id},
-                '${expense.title}',
-                ${expense.amount},
-                '${expense.category}'
-            )
-        "
-    >
-        Edit
-    </button>
+                        <td>${expense.id}</td>
 
-    <button
-        class="btn btn-danger btn-sm"
-        onclick="deleteExpense(${expense.id})"
-    >
-        Delete
-    </button>
+                        <td>${expense.title}</td>
 
-</td>
-    </tr>
-`;
+                        <td>₹${expense.amount}</td>
 
+                        <td>${expense.category}</td>
+
+                        <td>
+
+                            <button
+                                class="btn btn-warning btn-sm"
+                                onclick="
+                                    editExpense(
+                                        ${expense.id},
+                                        '${expense.title}',
+                                        ${expense.amount},
+                                        '${expense.category}'
+                                    )
+                                "
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-danger btn-sm"
+                                onclick="
+                                    deleteExpense(${expense.id})
+                                "
+                            >
+                                Delete
+                            </button>
+
+                        </td>
+
+                    </tr>
+                `;
             });
-
         }
 
+        // Logout
         function logout() {
 
             localStorage.removeItem("token");
 
             alert("Logged out successfully");
 
-            window.location.href = "/login-page";
-        } 
+            window.location.href =
+                "/login-page";
+        }
 
+        // Add Expense
         const expenseForm =
-    document.getElementById("expenseForm");
+            document.getElementById(
+                "expenseForm"
+            );
 
-expenseForm.addEventListener(
-    "submit",
-    async function(event) {
+        expenseForm.addEventListener(
+            "submit",
 
-        event.preventDefault();
+            async function(event) {
 
-        const token =
-            localStorage.getItem("token");
+                event.preventDefault();
 
-        const title =
-            document.getElementById("title").value;
+                const token =
+                    localStorage.getItem(
+                        "token"
+                    );
 
-        const amount =
-            document.getElementById("amount").value;
+                const title =
+                    document.getElementById(
+                        "title"
+                    ).value;
 
-        const category =
-            document.getElementById("category").value;
+                const amount =
+                    document.getElementById(
+                        "amount"
+                    ).value;
 
-        const response = await fetch(
-            "http://127.0.0.1:5000/expenses",
-            {
-                method: "POST",
+                const category =
+                    document.getElementById(
+                        "category"
+                    ).value;
 
-                headers: {
-                    "Content-Type": "application/json",
+                const response = await fetch(
+                    "http://127.0.0.1:5000/expenses",
+                    {
+                        method: "POST",
 
-                    "Authorization":
-                        `Bearer ${token}`
-                },
+                        headers: {
+                            "Content-Type":
+                                "application/json",
 
-                body: JSON.stringify({
-                    title: title,
-                    amount: amount,
-                    category: category
-                })
+                            "Authorization":
+                                `Bearer ${token}`
+                        },
+
+                        body: JSON.stringify({
+                            title: title,
+                            amount: amount,
+                            category: category
+                        })
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                alert(data.message);
+
+                expenseForm.reset();
+
+                fetchExpenses();
             }
         );
 
-        const data = await response.json();
+        // Delete Expense
+        async function deleteExpense(id) {
 
-        alert(data.message);
+            const token =
+                localStorage.getItem(
+                    "token"
+                );
 
-        expenseForm.reset();
+            const response = await fetch(
+                `http://127.0.0.1:5000/expenses/${id}`,
+                {
+                    method: "DELETE",
 
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+            const data =
+                await response.json();
+
+            alert(data.message);
+
+            fetchExpenses();
+        }
+
+        // Open Edit Modal
+        function editExpense(
+            id,
+            title,
+            amount,
+            category
+        ) {
+
+            document.getElementById(
+                "editId"
+            ).value = id;
+
+            document.getElementById(
+                "editTitle"
+            ).value = title;
+
+            document.getElementById(
+                "editAmount"
+            ).value = amount;
+
+            document.getElementById(
+                "editCategory"
+            ).value = category;
+
+            const modal =
+                new bootstrap.Modal(
+                    document.getElementById(
+                        "editModal"
+                    )
+                );
+
+            modal.show();
+        }
+
+        // Update Expense
+        async function updateExpense() {
+
+            const token =
+                localStorage.getItem(
+                    "token"
+                );
+
+            const id =
+                document.getElementById(
+                    "editId"
+                ).value;
+
+            const response = await fetch(
+                `http://127.0.0.1:5000/expenses/${id}`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+
+                        title:
+                            document.getElementById(
+                                "editTitle"
+                            ).value,
+
+                        amount:
+                            document.getElementById(
+                                "editAmount"
+                            ).value,
+
+                        category:
+                            document.getElementById(
+                                "editCategory"
+                            ).value
+                    })
+                }
+            );
+
+            const data =
+                await response.json();
+
+            alert(data.message);
+
+            fetchExpenses();
+
+            bootstrap.Modal.getInstance(
+                document.getElementById(
+                    "editModal"
+                )
+            ).hide();
+        }
+
+        // Load expenses
         fetchExpenses();
 
-    }
-); 
+    </script>
 
-async function deleteExpense(id) {
-
-    const token =
-        localStorage.getItem("token");
-
-    const response = await fetch(
-        `http://127.0.0.1:5000/expenses/${id}`,
-        {
-            method: "DELETE",
-
-            headers: {
-                "Authorization":
-                    `Bearer ${token}`
-            }
-        }
-    );
-
-    const data = await response.json();
-
-    alert(data.message);
-
-    fetchExpenses();
-}
- </script>
 </body>
+
 </html>
