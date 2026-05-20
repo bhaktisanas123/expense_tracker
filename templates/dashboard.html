@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <h2>
+                Expense Dashboard
+            </h2>
+
+            <button
+                class="btn btn-danger"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+        <div class="card shadow p-4">
+
+            <h4 class="mb-3">
+                Your Expenses
+            </h4> 
+
+            <h4 class="mb-3">
+    Add Expense
+</h4>
+
+<form id="expenseForm" class="mb-4">
+
+    <div class="row">
+
+        <div class="col-md-4">
+
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                placeholder="Expense Title"
+                required
+            >
+
+        </div>
+
+        <div class="col-md-3">
+
+            <input
+                type="number"
+                class="form-control"
+                id="amount"
+                placeholder="Amount"
+                required
+            >
+
+        </div>
+
+        <div class="col-md-3">
+
+            <select
+                class="form-select"
+                id="category"
+                required
+            >
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Food">
+                    Food
+                </option>
+
+                <option value="Transport">
+                    Transport
+                </option>
+
+                <option value="Shopping">
+                    Shopping
+                </option>
+
+                <option value="Bills">
+                    Bills
+                </option>
+
+                <option value="Entertainment">
+                    Entertainment
+                </option>
+
+                <option value="Education">
+                    Education
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-md-2">
+
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+            >
+                Add
+            </button>
+
+        </div>
+
+    </div>
+
+</form>
+
+            <table class="table table-bordered">
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Category</th> 
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="expenseTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        async function fetchExpenses() {
+
+            const token =
+                localStorage.getItem("token");
+
+            if (!token) {
+
+                alert("Please login first");
+
+                window.location.href = "/login-page";
+
+                return;
+            }
+
+            const response = await fetch(
+                "http://127.0.0.1:5000/expenses",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+            const data = await response.json();
+
+            const table =
+                document.getElementById("expenseTable");
+
+            table.innerHTML = "";
+
+            data.forEach(expense => {
+
+                table.innerHTML += `
+    <tr>
+        <td>${expense.id}</td>
+        <td>${expense.title}</td>
+        <td>₹${expense.amount}</td>
+        <td>${expense.category}</td>
+
+        <td>
+
+    <button
+        class="btn btn-warning btn-sm"
+        onclick="
+            editExpense(
+                ${expense.id},
+                '${expense.title}',
+                ${expense.amount},
+                '${expense.category}'
+            )
+        "
+    >
+        Edit
+    </button>
+
+    <button
+        class="btn btn-danger btn-sm"
+        onclick="deleteExpense(${expense.id})"
+    >
+        Delete
+    </button>
+
+</td>
+    </tr>
+`;
+
+            });
+
+        }
+
+        function logout() {
+
+            localStorage.removeItem("token");
+
+            alert("Logged out successfully");
+
+            window.location.href = "/login-page";
+        } 
+
+        const expenseForm =
+    document.getElementById("expenseForm");
+
+expenseForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const token =
+            localStorage.getItem("token");
+
+        const title =
+            document.getElementById("title").value;
+
+        const amount =
+            document.getElementById("amount").value;
+
+        const category =
+            document.getElementById("category").value;
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/expenses",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    title: title,
+                    amount: amount,
+                    category: category
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        expenseForm.reset();
+
+        fetchExpenses();
+
+    }
+); 
+
+async function deleteExpense(id) {
+
+    const token =
+        localStorage.getItem("token");
+
+    const response = await fetch(
+        `http://127.0.0.1:5000/expenses/${id}`,
+        {
+            method: "DELETE",
+
+            headers: {
+                "Authorization":
+                    `Bearer ${token}`
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    alert(data.message);
+
+    fetchExpenses();
+}
+ </script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 
 from config import Config
 from extensions import db, jwt
@@ -20,11 +21,20 @@ from routes.expense_routes import expense
 app.register_blueprint(expense)
 
 
-@app.route("/")
-def home():
-    return {
-        "message": "Expense Tracker API Running"
-    }
+@app.route("/register-page")
+def register_page():
+
+    return render_template("register.html") 
+
+@app.route("/login-page")
+def login_page():
+
+    return render_template("login.html") 
+
+@app.route("/dashboard")
+def dashboard():
+
+    return render_template("dashboard.html")
 
 
 with app.app_context():
