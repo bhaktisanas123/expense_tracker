@@ -2,87 +2,116 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Register</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
 </head>
 
-<body class="bg-light">
+<body>
 
-    <div class="container mt-5">
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
 
-        <div class="row justify-content-center">
+        <div class="w-100" style="max-width: 500px;">
 
-            <div class="col-md-5">
+            <div class="card shadow-lg p-4">
 
-                <div class="card shadow p-4">
+                <div class="text-center mb-4">
 
-                    <h2 class="text-center mb-4">
-                        Register
+                    <h2>
+                        Create Account 🚀
                     </h2>
 
-                    <form id="registerForm">
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Username
-                            </label>
-
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="username"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                required
-                            >
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                required
-                            >
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary w-100"
-                        >
-                            Register
-                        </button>
-
-                    </form>
-
-                    <p class="text-center mt-3">
-                        Already have account?
-                        <a href="/login-page">
-                            Login
-                        </a>
+                    <p class="text-muted">
+                        Start tracking your expenses
                     </p>
 
                 </div>
+
+                <form id="registerForm">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            placeholder="Enter username"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter email"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        Register
+                    </button>
+
+                </form>
+
+                <p class="text-center mt-4 mb-0">
+
+                    Already have an account?
+
+                    <a href="/login">
+                        Login
+                    </a>
+
+                </p>
 
             </div>
 
@@ -92,43 +121,60 @@
 
     <script>
 
-        const form = document.getElementById("registerForm");
-
-        form.addEventListener("submit", async function(event) {
-
-            event.preventDefault();
-
-            const username =
-                document.getElementById("username").value;
-
-            const email =
-                document.getElementById("email").value;
-
-            const password =
-                document.getElementById("password").value;
-
-            const response = await fetch(
-                "http://127.0.0.1:5000/register",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        username: username,
-                        email: email,
-                        password: password
-                    })
-                }
+        const form =
+            document.getElementById(
+                "registerForm"
             );
 
-            const data = await response.json();
+        form.addEventListener(
+            "submit",
 
-            alert(data.message);
+            async function(event) {
 
-        });
+                event.preventDefault();
+
+                const username =
+                    document.getElementById(
+                        "username"
+                    ).value;
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value;
+
+                const password =
+                    document.getElementById(
+                        "password"
+                    ).value;
+
+                const response = await fetch(
+                    "http://127.0.0.1:5000/register",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            username: username,
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const data =
+                    await response.json();
+
+                alert(data.message);
+
+                window.location.href =
+                    "/login";
+            }
+        );
 
     </script>
 

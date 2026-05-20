@@ -5,8 +5,10 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Dashboard</title>
 
@@ -15,22 +17,30 @@
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
 
 </head>
 
-<body class="bg-light">
+<body>
 
-    <div class="container mt-5">
+    <div class="container py-5">
 
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
             <div>
-                <h2>Dashboard 📊</h2>
-                <p class="text-muted">
+
+                <h2 class="mb-1">
+                    Dashboard 📊
+                </h2>
+
+                <p class="text-muted mb-0">
                     Track your daily expenses
                 </p>
+
             </div>
 
             <button
@@ -43,11 +53,11 @@
         </div>
 
         <!-- Summary Cards -->
-        <div class="row mb-4">
+        <div class="row g-4 mb-4">
 
             <div class="col-md-4">
 
-                <div class="card p-3 text-center">
+                <div class="card summary-card h-100">
 
                     <h5>Total Expenses</h5>
 
@@ -61,7 +71,7 @@
 
             <div class="col-md-4">
 
-                <div class="card p-3 text-center">
+                <div class="card summary-card h-100">
 
                     <h5>This Month</h5>
 
@@ -75,7 +85,7 @@
 
             <div class="col-md-4">
 
-                <div class="card p-3 text-center">
+                <div class="card summary-card h-100">
 
                     <h5>Transactions</h5>
 
@@ -90,122 +100,134 @@
         </div>
 
         <!-- Main Card -->
-        <div class="card shadow p-4">
+        <div class="card p-4">
 
             <!-- Add Expense -->
-            <h4 class="mb-3">
-                Add Expense
-            </h4>
+            <div class="mb-4">
 
-            <form id="expenseForm" class="mb-4">
+                <h4 class="mb-3">
+                    Add Expense
+                </h4>
 
-                <div class="row">
+                <form id="expenseForm">
 
-                    <div class="col-md-4">
+                    <div class="row g-3">
 
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="title"
-                            placeholder="Expense Title"
-                            required
-                        >
+                        <div class="col-md-4">
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="title"
+                                placeholder="Expense title"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="amount"
+                                placeholder="Amount"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <select
+                                class="form-select"
+                                id="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Category
+                                </option>
+
+                                <option value="Food">
+                                    Food
+                                </option>
+
+                                <option value="Transport">
+                                    Transport
+                                </option>
+
+                                <option value="Shopping">
+                                    Shopping
+                                </option>
+
+                                <option value="Bills">
+                                    Bills
+                                </option>
+
+                                <option value="Entertainment">
+                                    Entertainment
+                                </option>
+
+                                <option value="Education">
+                                    Education
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary w-100"
+                            >
+                                Add
+                            </button>
+
+                        </div>
 
                     </div>
 
-                    <div class="col-md-3">
+                </form>
 
-                        <input
-                            type="number"
-                            class="form-control"
-                            id="amount"
-                            placeholder="Amount"
-                            required
-                        >
+            </div>
 
-                    </div>
+            <!-- Expense Table -->
+            <div>
 
-                    <div class="col-md-3">
+                <h4 class="mb-3">
+                    Your Expenses
+                </h4>
 
-                        <select
-                            class="form-select"
-                            id="category"
-                            required
-                        >
+                <div class="table-responsive">
 
-                            <option value="">
-                                Select Category
-                            </option>
+                    <table class="table align-middle">
 
-                            <option value="Food">
-                                Food
-                            </option>
+                        <thead>
 
-                            <option value="Transport">
-                                Transport
-                            </option>
+                            <tr>
 
-                            <option value="Shopping">
-                                Shopping
-                            </option>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                                <th>Actions</th>
 
-                            <option value="Bills">
-                                Bills
-                            </option>
+                            </tr>
 
-                            <option value="Entertainment">
-                                Entertainment
-                            </option>
+                        </thead>
 
-                            <option value="Education">
-                                Education
-                            </option>
+                        <tbody id="expenseTable">
 
-                        </select>
+                        </tbody>
 
-                    </div>
-
-                    <div class="col-md-2">
-
-                        <button
-                            type="submit"
-                            class="btn btn-primary w-100"
-                        >
-                            Add
-                        </button>
-
-                    </div>
+                    </table>
 
                 </div>
 
-            </form>
-
-            <!-- Expense Table -->
-            <h4 class="mb-3">
-                Your Expenses
-            </h4>
-
-            <table class="table table-bordered">
-
-                <thead>
-
-                    <tr>
-
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="expenseTable">
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 
@@ -241,7 +263,7 @@
 
                     <div class="mb-3">
 
-                        <label>
+                        <label class="form-label">
                             Title
                         </label>
 
@@ -255,7 +277,7 @@
 
                     <div class="mb-3">
 
-                        <label>
+                        <label class="form-label">
                             Amount
                         </label>
 
@@ -269,7 +291,7 @@
 
                     <div class="mb-3">
 
-                        <label>
+                        <label class="form-label">
                             Category
                         </label>
 
@@ -327,10 +349,8 @@
 
             if (!token) {
 
-                alert("Please login first");
-
                 window.location.href =
-                    "/login-page";
+                    "/login";
 
                 return;
             }
@@ -350,7 +370,6 @@
             const data =
                 await response.json();
 
-            // Summary cards
             let total = 0;
 
             document.getElementById(
@@ -369,7 +388,6 @@
                 "monthExpense"
             ).innerText = `₹${total}`;
 
-            // Table
             const table =
                 document.getElementById(
                     "expenseTable"
@@ -391,7 +409,7 @@
 
                         <td>${expense.category}</td>
 
-                        <td>
+                        <td class="d-flex gap-2">
 
                             <button
                                 class="btn btn-warning btn-sm"
@@ -423,18 +441,16 @@
             });
         }
 
-        // Logout
         function logout() {
 
-            localStorage.removeItem("token");
-
-            alert("Logged out successfully");
+            localStorage.removeItem(
+                "token"
+            );
 
             window.location.href =
-                "/login-page";
+                "/login";
         }
 
-        // Add Expense
         const expenseForm =
             document.getElementById(
                 "expenseForm"
@@ -452,21 +468,6 @@
                         "token"
                     );
 
-                const title =
-                    document.getElementById(
-                        "title"
-                    ).value;
-
-                const amount =
-                    document.getElementById(
-                        "amount"
-                    ).value;
-
-                const category =
-                    document.getElementById(
-                        "category"
-                    ).value;
-
                 const response = await fetch(
                     "http://127.0.0.1:5000/expenses",
                     {
@@ -481,17 +482,26 @@
                         },
 
                         body: JSON.stringify({
-                            title: title,
-                            amount: amount,
-                            category: category
+
+                            title:
+                                document.getElementById(
+                                    "title"
+                                ).value,
+
+                            amount:
+                                document.getElementById(
+                                    "amount"
+                                ).value,
+
+                            category:
+                                document.getElementById(
+                                    "category"
+                                ).value
                         })
                     }
                 );
 
-                const data =
-                    await response.json();
-
-                alert(data.message);
+                await response.json();
 
                 expenseForm.reset();
 
@@ -499,7 +509,6 @@
             }
         );
 
-        // Delete Expense
         async function deleteExpense(id) {
 
             const token =
@@ -507,7 +516,7 @@
                     "token"
                 );
 
-            const response = await fetch(
+            await fetch(
                 `http://127.0.0.1:5000/expenses/${id}`,
                 {
                     method: "DELETE",
@@ -519,15 +528,9 @@
                 }
             );
 
-            const data =
-                await response.json();
-
-            alert(data.message);
-
             fetchExpenses();
         }
 
-        // Open Edit Modal
         function editExpense(
             id,
             title,
@@ -561,7 +564,6 @@
             modal.show();
         }
 
-        // Update Expense
         async function updateExpense() {
 
             const token =
@@ -574,7 +576,7 @@
                     "editId"
                 ).value;
 
-            const response = await fetch(
+            await fetch(
                 `http://127.0.0.1:5000/expenses/${id}`,
                 {
                     method: "PUT",
@@ -607,11 +609,6 @@
                 }
             );
 
-            const data =
-                await response.json();
-
-            alert(data.message);
-
             fetchExpenses();
 
             bootstrap.Modal.getInstance(
@@ -621,7 +618,6 @@
             ).hide();
         }
 
-        // Load expenses
         fetchExpenses();
 
     </script>

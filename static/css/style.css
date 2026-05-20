@@ -1,36 +1,154 @@
 body {
-    background: #f4f6f9;
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #f8fafc
+    );
+
     font-family: 'Segoe UI', sans-serif;
+
+    min-height: 100vh;
 }
 
 /* Cards */
 .card {
     border: none;
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.08);
+
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
 }
 
 /* Buttons */
 .btn {
-    border-radius: 10px;
-    font-weight: 500;
+    border-radius: 12px;
+
+    padding: 10px 16px;
+
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+}
+
+.btn-danger {
+    border: none;
+}
+
+.btn-warning {
+    color: white;
 }
 
 /* Inputs */
 .form-control,
 .form-select {
-    border-radius: 10px;
-    padding: 10px;
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    transition: 0.3s;
+}
+
+.form-control:focus,
+.form-select:focus {
+
+    border-color: #6366f1;
+
+    box-shadow:
+        0 0 0 0.2rem rgba(99,102,241,0.2);
 }
 
 /* Headings */
-h2, h4 {
-    font-weight: 600;
+h2, h4, h5 {
+
+    font-weight: 700;
+
+    color: #111827;
 }
 
-/* Table */
+/* Paragraph */
+.text-muted {
+    color: #6b7280 !important;
+}
+
+/* Tables */
 table {
+
     background: white;
-    border-radius: 12px;
+
+    border-radius: 14px;
+
     overflow: hidden;
+}
+
+thead {
+
+    background: #4f46e5;
+
+    color: white;
+}
+
+table td,
+table th {
+
+    vertical-align: middle;
+}
+
+/* Dashboard Cards */
+.summary-card {
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+.summary-card h3 {
+
+    margin-top: 10px;
+
+    color: #4f46e5;
+
+    font-weight: 700;
+}
+
+/* Modal */
+.modal-content {
+
+    border-radius: 18px;
+
+    border: none;
+}
+
+/* Links */
+a {
+
+    text-decoration: none;
+
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+} 
+
+.btn-sm:hover {
+    transform: scale(1.05);
 }

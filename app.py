@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,redirect
 from flask import render_template
 
 from config import Config
@@ -21,12 +21,12 @@ from routes.expense_routes import expense
 app.register_blueprint(expense)
 
 
-@app.route("/register-page")
+@app.route("/")
 def register_page():
 
     return render_template("register.html") 
 
-@app.route("/login-page")
+@app.route("/login")
 def login_page():
 
     return render_template("login.html") 

@@ -2,88 +2,100 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login</title>
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
         rel="stylesheet"
-    > 
-    <link rel="stylesheet" href="/static/css/style.css">
+    >
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
 </head>
 
-<body class="bg-light"> 
-    <h2 class="text-center mb-4">Create Account 🚀</h2>
-<p class="text-center text-muted">Start tracking your expenses</p>
+<body>
 
-    <div class="container mt-5">
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
 
-        <div class="row justify-content-center">
+        <div class="w-100" style="max-width: 500px;">
 
-            <div class="col-md-5">
+            <div class="card shadow-lg p-4">
 
-                <div class="card shadow p-4">
+                <div class="text-center mb-4">
 
-                    <h2 class="text-center mb-4">
-                        Login
+                    <h2>
+                        Welcome Back 👋
                     </h2>
 
-                    <form id="loginForm">
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Email
-                            </label>
-
-                            <input
-                                type="email"
-                                class="form-control"
-                                id="email"
-                                required
-                            >
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Password
-                            </label>
-
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                required
-                            >
-
-                        </div>
-
-                        <button
-                            type="submit"
-                            class="btn btn-success w-100"
-                        >
-                            Login
-                        </button>
-
-                    </form>
-
-                    <p class="text-center mt-3">
-
-                        Don't have account?
-
-                        <a href="/register-page">
-                            Register
-                        </a>
-
+                    <p class="text-muted">
+                        Login to continue tracking expenses
                     </p>
 
                 </div>
+
+                <form id="loginForm">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            placeholder="Enter email"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            placeholder="Enter password"
+                            required
+                        >
+
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="text-center mt-4 mb-0">
+
+                    Don't have an account?
+
+                    <a href="/register">
+                        Register
+                    </a>
+
+                </p>
 
             </div>
 
@@ -93,56 +105,69 @@
 
     <script>
 
-        const form = document.getElementById("loginForm");
-
-        form.addEventListener("submit", async function(event) {
-
-            event.preventDefault();
-
-            const email =
-                document.getElementById("email").value;
-
-            const password =
-                document.getElementById("password").value;
-
-            const response = await fetch(
-                "http://127.0.0.1:5000/login",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        email: email,
-                        password: password
-                    })
-                }
+        const form =
+            document.getElementById(
+                "loginForm"
             );
 
-            const data = await response.json();
+        form.addEventListener(
+            "submit",
 
-            if (response.ok) {
+            async function(event) {
 
-                // Store JWT token
-                localStorage.setItem(
-                    "token",
-                    data.token
+                event.preventDefault();
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value;
+
+                const password =
+                    document.getElementById(
+                        "password"
+                    ).value;
+
+                const response = await fetch(
+                    "http://127.0.0.1:5000/login",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    }
                 );
 
-                alert("Login successful");
+                const data =
+                    await response.json();
 
-                // Redirect to dashboard
-                window.location.href = "/dashboard";
+                if (response.ok) {
 
-            } else {
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
 
-                alert(data.message);
+                    alert(
+                        "Login successful"
+                    );
+
+                    window.location.href =
+                        "/dashboard";
+
+                } else {
+
+                    alert(data.message);
+                }
 
             }
-
-        });
+        );
 
     </script>
 
