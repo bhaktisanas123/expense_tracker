@@ -88,4 +88,52 @@ def delete_expense(id):
 
     return jsonify({
         "message": "Expense deleted successfully"
+    }), 200 
+
+
+@expense.route("/expenses/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_expense(id):
+
+    # Get logged-in user id
+    current_user = int(get_jwt_identity())
+
+    # Find expense
+    expense_item = Expense.query.get(id)
+
+    # Check if expense exists
+    if not expense_item:
+        return jsonify({
+            "message": "Expense not found"
+        }), 404
+
+    # Authorization check
+    if expense_item.user_id != current_user:
+        return jsonify({
+            "message": "Unauthorized access"
+        }), 403
+
+    data = request.get_json()
+
+    # Update fields
+    expense_item.title = data.get(
+        "title",
+        expense_item.title
+    )
+
+    expense_item.amount = data.get(
+        "amount",
+        expense_item.amount
+    )
+
+    expense_item.category = data.get(
+        "category",
+        expense_item.category
+    )
+
+    # Save updates
+    db.session.commit()
+
+    return jsonify({
+        "message": "Expense updated successfully"
     }), 200
