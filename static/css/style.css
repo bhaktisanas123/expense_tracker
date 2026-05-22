@@ -151,4 +151,165 @@ a:hover {
 
 .btn-sm:hover {
     transform: scale(1.05);
+} 
+
+/* =========================
+   DARK MODE
+========================= */
+
+.dark-mode {
+
+    background: #121212;
+    color: #ffffff;
+}
+
+/* Container */
+.dark-mode .container {
+
+    background: transparent;
+}
+
+/* Cards */
+.dark-mode .card {
+
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+
+    border: 1px solid #333;
+}
+
+/* Table */
+.dark-mode .table {
+
+    color: white;
+}
+
+.dark-mode .table thead {
+
+    background: #2b2b2b;
+    color: white;
+}
+
+.dark-mode .table tbody tr {
+
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .table tbody tr:hover {
+
+    background: #2a2a2a;
+}
+
+/* Inputs */
+.dark-mode .form-control,
+.dark-mode .form-select {
+
+    background: #2b2b2b;
+    color: white;
+
+    border: 1px solid #555;
+}
+
+.dark-mode .form-control::placeholder {
+
+    color: #bbbbbb;
+}
+
+/* Search input */
+.dark-mode input {
+
+    color: white;
+}
+
+/* Modal */
+.dark-mode .modal-content {
+
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .modal-header,
+.dark-mode .modal-footer {
+
+    border-color: #444;
+}
+
+/* Text muted */
+.dark-mode .text-muted {
+
+    color: #bbbbbb !important;
+}
+
+/* Buttons */
+.dark-mode .btn-dark {
+
+    background: white;
+    color: black;
+}
+
+/* Analytics section */
+.dark-mode canvas {
+
+    background: #1e1e1e;
+    border-radius: 12px;
+    padding: 10px;
+}
+
+/* Summary cards */
+.dark-mode .summary-card {
+
+    background: linear-gradient(
+        145deg,
+        #1e1e1e,
+        #2b2b2b
+    ) !important;
+}
+
+/* Table responsive */
+.dark-mode .table-responsive {
+
+    border-radius: 10px;
+    overflow: hidden;
+} 
+
+/* Dark table fix */
+
+.dark-mode table {
+
+    background-color: #1e1e1e !important;
+}
+
+.dark-mode table tr {
+
+    background-color: #1e1e1e !important;
+}
+
+.dark-mode table td,
+.dark-mode table th {
+
+    background-color: #1e1e1e !important;
+    color: white !important;
+
+    border-color: #333 !important;
+}
+
+.dark-mode .table-striped > tbody > tr:nth-of-type(odd) > * {
+
+    background-color: #252525 !important;
+} 
+
+/* Dark mode headings fix */
+
+.dark-mode h1,
+.dark-mode h2,
+.dark-mode h3,
+.dark-mode h4,
+.dark-mode h5,
+.dark-mode h6,
+.dark-mode p,
+.dark-mode label,
+.dark-mode span {
+
+    color: white !important;
 }

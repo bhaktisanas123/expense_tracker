@@ -29,28 +29,40 @@
     <div class="container py-5">
 
         <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+     <!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
 
-            <div>
+    <div>
 
-                <h2 class="mb-1">
-                    Dashboard 📊
-                </h2>
+        <h2 class="mb-1">
+            Dashboard 📊
+        </h2>
 
-                <p class="text-muted mb-0">
-                    Track your daily expenses
-                </p>
+        <p class="text-muted mb-0">
+            Track your daily expenses
+        </p>
 
-            </div>
+    </div>
 
-            <button
-                class="btn btn-danger"
-                onclick="logout()"
-            >
-                Logout
-            </button>
+    <div class="d-flex gap-2">
 
-        </div>
+        <button
+            class="btn btn-dark"
+            onclick="toggleDarkMode()"
+        >
+            🌙
+        </button>
+
+        <button
+            class="btn btn-danger"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
 
         <!-- Summary Cards -->
         <div class="row g-4 mb-4">
@@ -94,6 +106,27 @@
                     </h3>
 
                 </div>
+
+            </div>
+
+        </div>
+
+        <!-- Analytics -->
+        <div class="card p-4 mb-4 text-center">
+
+            <h4 class="mb-4">
+                Expense Analytics
+            </h4>
+
+            <div
+                style="
+                    max-width: 250px;
+                    height: 250px;
+                    margin: auto;
+                "
+            >
+
+                <canvas id="expenseChart"></canvas>
 
             </div>
 
@@ -197,9 +230,21 @@
             <!-- Expense Table -->
             <div>
 
-                <h4 class="mb-3">
-                    Your Expenses
-                </h4>
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-3">
+
+                    <h4 class="mb-0">
+                        Your Expenses
+                    </h4>
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="form-control"
+                        placeholder="Search expenses..."
+                        style="max-width: 300px;"
+                    >
+
+                </div>
 
                 <div class="table-responsive">
 
@@ -340,53 +385,16 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
 
-        async function fetchExpenses() {
+        let expenseChart;
 
-            const token =
-                localStorage.getItem("token");
+        let allExpenses = [];
 
-            if (!token) {
-
-                window.location.href =
-                    "/login";
-
-                return;
-            }
-
-            const response = await fetch(
-                "http://127.0.0.1:5000/expenses",
-                {
-                    method: "GET",
-
-                    headers: {
-                        "Authorization":
-                            `Bearer ${token}`
-                    }
-                }
-            );
-
-            const data =
-                await response.json();
-
-            let total = 0;
-
-            document.getElementById(
-                "totalCount"
-            ).innerText = data.length;
-
-            data.forEach(expense => {
-                total += expense.amount;
-            });
-
-            document.getElementById(
-                "totalExpense"
-            ).innerText = `₹${total}`;
-
-            document.getElementById(
-                "monthExpense"
-            ).innerText = `₹${total}`;
+        function renderExpenses(expenses) {
 
             const table =
                 document.getElementById(
@@ -395,7 +403,7 @@
 
             table.innerHTML = "";
 
-            data.forEach(expense => {
+            expenses.forEach(expense => {
 
                 table.innerHTML += `
 
@@ -441,6 +449,117 @@
             });
         }
 
+        async function fetchExpenses() {
+
+            const token =
+                localStorage.getItem("token");
+
+            if (!token) {
+
+                window.location.href =
+                    "/login";
+
+                return;
+            }
+
+            const response = await fetch(
+                "http://127.0.0.1:5000/expenses",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+            const data =
+                await response.json();
+
+            allExpenses = data;
+
+            let total = 0;
+
+            const categoryTotals = {};
+
+            document.getElementById(
+                "totalCount"
+            ).innerText = data.length;
+
+            data.forEach(expense => {
+
+                total += expense.amount;
+
+                if (categoryTotals[expense.category]) {
+
+                    categoryTotals[expense.category] += expense.amount;
+
+                } else {
+
+                    categoryTotals[expense.category] = expense.amount;
+                }
+            });
+
+            document.getElementById(
+                "totalExpense"
+            ).innerText = `₹${total}`;
+
+            document.getElementById(
+                "monthExpense"
+            ).innerText = `₹${total}`;
+
+            // Chart
+            const labels =
+                Object.keys(categoryTotals);
+
+            const values =
+                Object.values(categoryTotals);
+
+            const ctx =
+                document.getElementById(
+                    "expenseChart"
+                );
+
+            if (expenseChart) {
+
+                expenseChart.destroy();
+            }
+
+            expenseChart = new Chart(ctx, {
+
+                type: "pie",
+
+                data: {
+
+                    labels: labels,
+
+                    datasets: [{
+
+                        data: values,
+
+                        borderWidth: 1
+                    }]
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    plugins: {
+
+                        legend: {
+                            position: "bottom"
+                        }
+                    }
+                }
+            });
+
+            renderExpenses(data);
+        }
+
         function logout() {
 
             localStorage.removeItem(
@@ -468,7 +587,7 @@
                         "token"
                     );
 
-                const response = await fetch(
+                await fetch(
                     "http://127.0.0.1:5000/expenses",
                     {
                         method: "POST",
@@ -500,8 +619,6 @@
                         })
                     }
                 );
-
-                await response.json();
 
                 expenseForm.reset();
 
@@ -617,6 +734,72 @@
                 )
             ).hide();
         }
+
+        // Search
+        document.getElementById(
+            "searchInput"
+        ).addEventListener(
+            "keyup",
+
+            function() {
+
+                const searchValue =
+                    this.value.toLowerCase();
+
+                const filteredExpenses =
+                    allExpenses.filter(expense =>
+
+                        expense.title
+                            .toLowerCase()
+                            .includes(searchValue)
+
+                        ||
+
+                        expense.category
+                            .toLowerCase()
+                            .includes(searchValue)
+                    );
+
+                renderExpenses(filteredExpenses);
+            }
+        ); 
+
+        function toggleDarkMode() {
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    if (
+        document.body.classList.contains(
+            "dark-mode"
+        )
+    ) {
+
+        localStorage.setItem(
+            "theme",
+            "dark"
+        );
+
+    } else {
+
+        localStorage.setItem(
+            "theme",
+            "light"
+        );
+    }
+}
+
+// Load saved theme
+if (
+    localStorage.getItem("theme")
+    === "dark"
+) {
+
+    document.body.classList.add(
+        "dark-mode"
+    );
+}
 
         fetchExpenses();
 
